@@ -20,6 +20,13 @@ function App() {
   function handleAddPlaceClick() {
     setStateAdd(true);
   }
+
+  function closeAllPopups() {
+    setStateAvatar(false);
+    setStateProfile(false);
+    setStateAdd(false);
+  }
+
   return (
     <div className="page">
       <Header />
@@ -37,6 +44,7 @@ function App() {
         name="profile"
         buttonTitle="Сохранить"
         isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
       >
         <form
           name="user-info"
@@ -78,6 +86,7 @@ function App() {
         name="add-picture"
         buttonTitle="Создать"
         isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
       >
         <form
           name="add-picture"
@@ -126,6 +135,7 @@ function App() {
         name="vatar-form"
         buttonTitle="Сохранить"
         isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
         
       >
         <form

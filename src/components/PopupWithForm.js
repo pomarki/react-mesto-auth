@@ -1,8 +1,8 @@
 import React from "react";
 
-function PopupWithForm({ title, name, buttonTitle, isOpen, children }) {
+function PopupWithForm({ title, name, buttonTitle, isOpen, children, onClose }) {
 
-  
+
   return (
     <div className={`popup page__popup ${isOpen && "popup_opened"} id="popup-${name}`}>
       <div className="popup__container">
@@ -10,6 +10,8 @@ function PopupWithForm({ title, name, buttonTitle, isOpen, children }) {
           type="button"
           className="popup__close-button link"
           aria-label="Закрыть окно"
+          onClick={onClose}
+
         ></button>
         <h2 className="popup__title">{title}</h2>
         {children}
