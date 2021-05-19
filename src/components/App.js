@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import "../index.css";
 import Header from "../components/Header";
 import Main from "../components/Main";
@@ -7,9 +7,9 @@ import PopupWithForm from "../components/PopupWithForm";
 import ImagePopup from "../components/ImagePopup";
 
 function App() {
-  const [isEditProfilePopupOpen, setStateProfile] = React.useState(false);
-  const [isAddPlacePopupOpen, setStateAdd] = React.useState(false);
-  const [isEditAvatarPopupOpen, setStateAvatar] = React.useState(false);
+  const [isEditProfilePopupOpen, setStateProfile] = useState(false);
+  const [isAddPlacePopupOpen, setStateAdd] = useState(false);
+  const [isEditAvatarPopupOpen, setStateAvatar] = useState(false);
 
   function handleEditAvatarClick() {
     setStateAvatar(true);
