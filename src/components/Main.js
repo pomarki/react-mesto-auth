@@ -1,22 +1,45 @@
 import React, { useEffect, useState } from "react";
 import Api from "../utils/Api.js";
+import Card from "../components/Card";
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
   const [userName, setUserName] = useState("");
   const [userDescription, setDescription] = useState("");
   const [userAvatar, setAvatar] = useState("");
+  const [initialCards, setCards] = useState([]);
+
   useEffect(() => {
-    Api.getUserInfo().then((data) => {
-      setUserName(data.name);
-      setDescription(data.about);
-      setAvatar(data.avatar);
-    });
+    Api.getUserInfo()
+      .then((data) => {
+        setUserName(data.name);
+        setDescription(data.about);
+        setAvatar(data.avatar);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    Api.getInitialCards()
+      .then((data) => {
+        setCards(
+          data.map((item) => ({
+            name: item.name,
+            link: item.link,
+            likes: item.likes.length,
+            id: item._id,
+          }))
+        );
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   return (
     <div className="content">
       <section className="profile page__profile">
-        <div style={{ backgroundImage: `url(${userAvatar})` }} className="avatar-container">
+        <div
+          style={{ backgroundImage: `url(${userAvatar})`, backgroundColor: "red"}}
+          className="avatar-container"
+        > 
           {/* <img className="profile__avatar" src="#" alt="фото пользователя" /> */}
         </div>
         <div
@@ -39,8 +62,9 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
         ></button>
       </section>
       <section className="elements page__elements">
-        <ul className="elements__list"></ul>
+      <ul className="elements__list">{initialCards.map(({id, ...card}) => <Card key={id} {...card} />)}</ul>  
       </section>
+      
     </div>
   );
 }

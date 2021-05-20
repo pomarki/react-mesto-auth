@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "../index.css";
 import Header from "../components/Header";
 import Main from "../components/Main";
@@ -136,7 +136,6 @@ function App() {
         buttonTitle="Сохранить"
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
-        
       >
         <form
           name="upg-avatar"
@@ -157,25 +156,6 @@ function App() {
           </div>
         </form>
       </PopupWithForm>
-
-      <template id="template__element">
-        <li className="elements__item">
-          <div className="element">
-            <button type="button" className="element__trash"></button>
-            <img className="element__img" src="#" alt="#" />
-            <div className="element__info">
-              <h2 className="element__info-place"></h2>
-              <div className="element__likes-container">
-                <button
-                  type="button"
-                  className="element__info-heart element__info-heart_type_disabled"
-                ></button>
-                <span className="element__info-likes"></span>
-              </div>
-            </div>
-          </div>
-        </li>
-      </template>
     </div>
   );
 }

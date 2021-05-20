@@ -1,7 +1,7 @@
 .element__img {
   width: 282px;
   height: 282px;
-  object-fit: cover;
+  object-fit: contain;
 }
 .element__img:hover {
   opacity: 0.8;
