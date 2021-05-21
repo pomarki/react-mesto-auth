@@ -1,18 +1,24 @@
 import React from "react";
 
 function Card({ link, name, likes, onCardClick }) {
+  function handleClick() {
+    onCardClick({ name: name, link: link });
+    console.log({ name: name, link: link });
+  }
 
-function handleClick() {
-  onCardClick({name: name, link: link});
-  console.log({name: name, link: link})
-}
-  
   return (
     <li className="elements__item">
       <div className="element">
         <button type="button" className="element__trash"></button>
-        {/* <img className="element__img" src="#" alt="#" /> */}
-        <div className="element__img" onClick={handleClick} style={{ backgroundImage: `url(${link})`, backgroundSize: "cover", ariaLabel: {name} }}></div>
+        <div
+          className="element__img"
+          onClick={handleClick}
+          style={{
+            backgroundImage: `url(${link})`,
+            backgroundSize: "cover",
+            ariaLabel: { name },
+          }}
+        ></div>
         <div className="element__info">
           <h2 className="element__info-place">{name}</h2>
           <div className="element__likes-container">

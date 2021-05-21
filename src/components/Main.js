@@ -37,11 +37,12 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
     <div className="content">
       <section className="profile page__profile">
         <div
-          style={{ backgroundImage: `url(${userAvatar})`, backgroundColor: "red"}}
+          style={{
+            backgroundImage: `url(${userAvatar})`,
+            backgroundColor: "red",
+          }}
           className="avatar-container"
-        > 
-          {/* <img className="profile__avatar" src="#" alt="фото пользователя" /> */}
-        </div>
+        ></div>
         <div
           onClick={onEditAvatar}
           className="profile__avatar-change-icon"
@@ -62,9 +63,12 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
         ></button>
       </section>
       <section className="elements page__elements">
-      <ul className="elements__list">{initialCards.map(({id, ...card}) => <Card key={id} {...card} onCardClick={onCardClick}/>)}</ul>  
+        <ul className="elements__list">
+          {initialCards.map(({ id, ...card }) => (
+            <Card key={id} {...card} onCardClick={onCardClick} />
+          ))}
+        </ul>
       </section>
-      
     </div>
   );
 }
