@@ -10,6 +10,13 @@ function App() {
   const [isEditProfilePopupOpen, setStateProfile] = useState(false);
   const [isAddPlacePopupOpen, setStateAdd] = useState(false);
   const [isEditAvatarPopupOpen, setStateAvatar] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(undefined);
+ 
+
+
+  function handleCardClick(chosenCard) {
+    setSelectedCard(chosenCard);
+  }
 
   function handleEditAvatarClick() {
     setStateAvatar(true);
@@ -25,6 +32,7 @@ function App() {
     setStateAvatar(false);
     setStateProfile(false);
     setStateAdd(false);
+    setSelectedCard(undefined);
   }
 
   return (
@@ -35,6 +43,7 @@ function App() {
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleEditAvatarClick}
+        onCardClick={handleCardClick}
       />
 
       <Footer />
@@ -121,7 +130,7 @@ function App() {
         </form>
       </PopupWithForm>
 
-      <ImagePopup isOpen={false} />
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
       <PopupWithForm
         title="Вы уверены?"
