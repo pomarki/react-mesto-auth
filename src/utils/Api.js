@@ -1,15 +1,16 @@
-const handleResponse = (response) => {
-  if (!response.ok) {
-    return Promise.reject(`Error: ${response.status}`);
-  }
-  return response.json();
-};
-
-class ApiOld {
+class Api {
   constructor({ address, token, groupID }) {
     this._address = address;
     this._token = token;
     this._groupID = groupID;
+  }
+  _checkResponse(response) {
+
+    if (!response.ok) {
+      return Promise.reject(`Error: ${response.status}`);
+    }
+    return response.json();
+
   }
 
   getInitialCards() {
@@ -17,7 +18,7 @@ class ApiOld {
       headers: {
         authorization: this._token,
       },
-    }).then(handleResponse);
+    }).then(this._checkResponse);
   }
 
   getUserInfo() {
@@ -25,7 +26,7 @@ class ApiOld {
       headers: {
         authorization: this._token,
       },
-    }).then(handleResponse);
+    }).then(this._checkResponse);
   }
 
   changeUserInfo(data) {
@@ -39,7 +40,7 @@ class ApiOld {
         name: data.name,
         about: data.about,
       }),
-    }).then(handleResponse);
+    }).then(this._checkResponse);
   }
 
   sendNewCard(data) {
@@ -53,7 +54,7 @@ class ApiOld {
         name: data.name,
         link: data.link,
       }),
-    }).then(handleResponse);
+    }).then(this._checkResponse);
   }
 
   removeCard(id) {
@@ -75,7 +76,7 @@ class ApiOld {
       headers: {
         authorization: this._token,
       },
-    }).then(handleResponse);
+    }).then(this._checkResponse);
   }
 
   dislikeCard(id) {
@@ -84,7 +85,7 @@ class ApiOld {
       headers: {
         authorization: this._token,
       },
-    }).then(handleResponse);
+    }).then(this._checkResponse);
   }
   sendNewAvatar(avatar) {
     return fetch(`${this._address}/${this._groupID}/users/me/avatar`, {
@@ -104,12 +105,10 @@ class ApiOld {
   }
 }
 
-/* export default ApiOld; */
-
-const Api = new ApiOld({
+const api = new Api({
   address: "https://mesto.nomoreparties.co/v1",
   token: "a871f903-a7ec-46a6-99c3-83953182d0a9",
   groupID: "cohort-22",
 });
 
-export default Api;
+export default api;

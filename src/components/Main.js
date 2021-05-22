@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Api from "../utils/Api.js";
+import api from "../utils/api";
 import Card from "../components/Card";
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
@@ -9,17 +9,12 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
   const [initialCards, setCards] = useState([]);
 
   useEffect(() => {
-    Api.getUserInfo()
-      .then((data) => {
-        setUserName(data.name);
-        setDescription(data.about);
-        setAvatar(data.avatar);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
-  useEffect(() => {
-    Api.getInitialCards()
+    api.getUserInfo().then((data) => {
+      setUserName(data.name);
+      setDescription(data.about);
+      setAvatar(data.avatar);
+    });
+    api.getInitialCards()
       .then((data) => {
         setCards(
           data.map((item) => ({
@@ -30,6 +25,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
           }))
         );
       })
+
       .catch((err) => console.log(err));
   }, []);
 

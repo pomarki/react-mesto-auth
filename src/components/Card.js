@@ -3,13 +3,12 @@ import React from "react";
 function Card({ link, name, likes, onCardClick }) {
   function handleClick() {
     onCardClick({ name: name, link: link });
-    console.log({ name: name, link: link });
   }
 
   return (
     <li className="elements__item">
       <div className="element">
-        <button type="button" className="element__trash"></button>
+        <button type="button" className="element__trash element__trash_visible"></button>
         <div
           className="element__img"
           onClick={handleClick}
