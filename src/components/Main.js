@@ -9,12 +9,16 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
   const [initialCards, setCards] = useState([]);
 
   useEffect(() => {
-    api.getUserInfo().then((data) => {
-      setUserName(data.name);
-      setDescription(data.about);
-      setAvatar(data.avatar);
-    });
-    api.getInitialCards()
+    api
+      .getUserInfo()
+      .then((data) => {
+        setUserName(data.name);
+        setDescription(data.about);
+        setAvatar(data.avatar);
+      })
+      .catch((err) => console.log(err));
+    api
+      .getInitialCards()
       .then((data) => {
         setCards(
           data.map((item) => ({
@@ -25,7 +29,6 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
           }))
         );
       })
-
       .catch((err) => console.log(err));
   }, []);
 
