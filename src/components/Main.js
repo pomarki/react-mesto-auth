@@ -15,13 +15,26 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
           data.map((item) => ({
             name: item.name,
             link: item.link,
-            likes: item.likes.length,
-            id: item._id,
+            likes: item.likes,
+            cardId: item._id,
+            userId: item.owner._id,
           }))
         );
       })
       .catch((err) => console.log(err));
   }, []);
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((item) => item._id === currentUser._id); //переменная срабатывает правильно
+    api
+      .changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards(
+          (state) => state.map((c) => (c.cardId === card._id ? newCard : c)) //если
+        );
+      })
+      .catch((err) => console.log(err));
+  }
 
   return (
     <div className="content">
@@ -54,8 +67,14 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
       </section>
       <section className="elements page__elements">
         <ul className="elements__list">
-          {initialCards.map(({ id, ...card }) => (
-            <Card key={id} {...card} onCardClick={onCardClick} />
+          {initialCards.map(({ cardId, ...card }) => (
+            <Card
+              key={cardId}
+              {...card}
+              onCardClick={onCardClick}
+              onCardLike={handleCardLike}
+              cardId={cardId}
+            />
           ))}
         </ul>
       </section>

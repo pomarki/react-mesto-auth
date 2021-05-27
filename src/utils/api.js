@@ -70,7 +70,7 @@ export class Api {
       );
     }
   
-    likeCard(id) {
+    /* likeCard(id) {
       return fetch(`${this._address}/${this._groupID}/cards/likes/${id}`, {
         method: "PUT",
         headers: {
@@ -86,7 +86,17 @@ export class Api {
           authorization: this._token,
         },
       }).then(this._checkResponse);
+    } */
+
+    changeLikeCardStatus(id, isLiked) {
+      return fetch(`${this._address}/${this._groupID}/cards/likes/${id}`, {
+        method: isLiked ? "PUT" : "DELETE",
+        headers: {
+          authorization: this._token,
+        },
+      }).then(this._checkResponse);
     }
+
     sendNewAvatar(avatar) {
       return fetch(`${this._address}/${this._groupID}/users/me/avatar`, {
         method: "PATCH",

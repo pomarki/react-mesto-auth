@@ -1,14 +1,33 @@
 import React from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Card({ link, name, likes, onCardClick }) {
+function Card({ link, name, likes, userId, onCardClick, onCardLike, cardId}) {
+  
   function handleClick() {
     onCardClick({ name: name, link: link });
   }
 
+  function handleLikeClick () {
+    onCardLike({ likes: likes, _id: cardId})
+  }
+
+  const currentUser = React.useContext(CurrentUserContext);
+  const isOwn = userId === currentUser._id;
+  const isLiked = likes.some((item) => item._id === currentUser._id);
+  const cardDeleteButtonClassName = `element__trash ${
+    isOwn ? "element__trash_visible" : ""
+  }`;
+
+  const cardLikeButtonClassName = `element__info-heart ${
+    isLiked ? "" : "element__info-heart_type_disabled"
+  }`;
+
+
   return (
+    <CurrentUserContext.Provider value={currentUser}>
     <li className="elements__item">
       <div className="element">
-        <button type="button" className="element__trash element__trash_visible"></button>
+        <button type="button" className={cardDeleteButtonClassName}></button>
         <div
           className="element__img"
           onClick={handleClick}
@@ -21,15 +40,13 @@ function Card({ link, name, likes, onCardClick }) {
         <div className="element__info">
           <h2 className="element__info-place">{name}</h2>
           <div className="element__likes-container">
-            <button
-              type="button"
-              className="element__info-heart element__info-heart_type_disabled"
-            ></button>
-            <span className="element__info-likes">{likes}</span>
+            <button type="button" onClick={handleLikeClick} className={cardLikeButtonClassName}></button>
+            <span className="element__info-likes">{likes.length}</span>
           </div>
         </div>
       </div>
     </li>
+    </CurrentUserContext.Provider>
   );
 }
 

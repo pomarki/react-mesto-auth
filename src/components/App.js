@@ -12,11 +12,9 @@ function App() {
   const [isAddPlacePopupOpen, setStateAdd] = useState(false);
   const [isEditAvatarPopupOpen, setStateAvatar] = useState(false);
   const [selectedCard, setSelectedCard] = useState(undefined);
-  const [currentUser, setCurrentUser] = useState("");
+  const [currentUser, setCurrentUser] = useState({});
 
-  /* function handleCurrentUser(volume) {
-    setCurrentUser(volume);
-  } */
+
   function handleCardClick(chosenCard) {
     setSelectedCard(chosenCard);
   }
