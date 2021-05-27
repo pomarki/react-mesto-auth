@@ -25,14 +25,21 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
   }, []);
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some((item) => item._id === currentUser._id); //переменная срабатывает правильно
+    let isLiked = card.likes.some((item) => item._id === currentUser._id);
     api
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
-        setCards(
-          (state) => state.map((c) => (c.cardId === card._id ? newCard : c)) //если
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
         );
       })
+      .catch((err) => console.log(err));
+  }
+
+  function handleCardDelete(cardId) {
+    api
+      .removeCard(cardId)
+      .then(setCards((state) => state.filter((item) => item.cardId != cardId)))
       .catch((err) => console.log(err));
   }
 
@@ -73,6 +80,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
               {...card}
               onCardClick={onCardClick}
               onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
               cardId={cardId}
             />
           ))}
