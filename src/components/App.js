@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import PopupWithForm from "../components/PopupWithForm";
 import ImagePopup from "../components/ImagePopup";
 import api from "../utils/api";
+import EditProfilePopup from "../components/EditProfilePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function App() {
@@ -13,7 +14,6 @@ function App() {
   const [isEditAvatarPopupOpen, setStateAvatar] = useState(false);
   const [selectedCard, setSelectedCard] = useState(undefined);
   const [currentUser, setCurrentUser] = useState({});
-
 
   function handleCardClick(chosenCard) {
     setSelectedCard(chosenCard);
@@ -68,39 +68,7 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
         >
-          <form
-            name="user-info"
-            className="popup__form"
-            autoComplete="off"
-            noValidate
-          >
-            <div className="popup__section">
-              <input
-                required
-                minLength="2"
-                maxLength="40"
-                className="popup__text-field"
-                type="text"
-                placeholder="Ваше имя"
-                name="user-name"
-                id="user-name"
-              />
-              <span className="popup__input-error" id="user-name-error"></span>
-            </div>
-            <div className="popup__section">
-              <input
-                required
-                minLength="2"
-                maxLength="200"
-                className="popup__text-field"
-                type="text"
-                placeholder="Ваша профессия"
-                name="user-job"
-                id="user-job"
-              />
-              <span className="popup__input-error" id="user-job-error"></span>
-            </div>
-          </form>
+          <EditProfilePopup />
         </PopupWithForm>
 
         <PopupWithForm

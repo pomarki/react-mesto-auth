@@ -10,7 +10,6 @@ function Card({
   onCardLike,
   onCardDelete,
   cardId,
-  
 }) {
   function handleClick() {
     onCardClick({ name: name, link: link });
@@ -18,7 +17,6 @@ function Card({
 
   function handleLikeClick() {
     onCardLike({ likes: likes, _id: cardId });
-    
   }
 
   function handleDeleteClick() {
@@ -32,15 +30,19 @@ function Card({
     isOwn ? "element__trash_visible" : ""
   }`;
 
-  const cardLikeButtonClassName = `element__info-heart ${
+  let cardLikeButtonClassName = `element__info-heart ${
     isLiked ? "" : "element__info-heart_type_disabled"
   }`;
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
+    
       <li className="elements__item">
         <div className="element">
-          <button type="button" className={cardDeleteButtonClassName} onClick={handleDeleteClick}></button>
+          <button
+            type="button"
+            className={cardDeleteButtonClassName}
+            onClick={handleDeleteClick}
+          ></button>
           <div
             className="element__img"
             onClick={handleClick}
@@ -63,7 +65,7 @@ function Card({
           </div>
         </div>
       </li>
-    </CurrentUserContext.Provider>
+    
   );
 }
 
