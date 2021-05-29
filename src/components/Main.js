@@ -33,6 +33,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
         setCards((state) =>
           state.map((c) => (c._id === card._id ? newCard : c))
         );
+        isLiked = !isLiked;
       })
       .catch((err) => console.log(err));
   }
@@ -52,7 +53,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
             backgroundImage: `url(${currentUser.avatar})`,
             backgroundColor: "red",
           }}
-          className="avatar-container"
+          className="profile__avatar"
         ></div>
         <div
           onClick={onEditAvatar}
