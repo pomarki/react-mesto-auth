@@ -25,15 +25,16 @@ function PopupWithForm({
         <h2 className="popup__title">{title}</h2>
         <form
           name={name} // name поменялся с прошлого проекта!
+          onSubmit={onSubmit}
           className="popup__form"
-          autocComplete="off"
+          autoccomplete="off"
           noValidate
         >
           {children}
         </form>
         <button
           type="button"
-          onSubmit={onSubmit}
+          onClick={onSubmit}
           className="popup__save-button"
           id={`popup-${name}-button`}
         >
