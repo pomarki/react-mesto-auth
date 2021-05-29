@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import PopupWithForm from "../components/PopupWithForm";
 
-function EditProfilePopup() {
+function EditProfilePopup({onUpdateUser, isOpen, onClose} ) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const currentUser = React.useContext(CurrentUserContext);
@@ -9,21 +10,31 @@ function EditProfilePopup() {
   React.useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]); 
+  }, [currentUser]);
 
   function handleCangeName(e) {
-      setName(e.target.value);
+    setName(e.target.value);
   }
   function handleCangeDescription(e) {
-      setDescription(e.target.value);
+    setDescription(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    onUpdateUser({
+      name,
+      about: description,
+    });
   }
 
   return (
-    <form
-      name="user-info"
-      className="popup__form"
-      autoComplete="off"
-      noValidate
+    <PopupWithForm
+      title="Редактировать профиль"
+      name="profile"
+      buttonTitle="Сохранить"
+      onSubmit={handleSubmit}
+      isOpen={isOpen}
+      onClose={onClose}
     >
       <div className="popup__section">
         <input
@@ -55,7 +66,7 @@ function EditProfilePopup() {
         />
         <span className="popup__input-error" id="user-job-error"></span>
       </div>
-    </form>
+    </PopupWithForm>
   );
 }
 

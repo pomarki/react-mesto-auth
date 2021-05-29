@@ -47,6 +47,16 @@ function App() {
       .catch((err) => console.log(err));
   }, []);
 
+  function handleUpdateUser(data) {
+    api
+      .changeUserInfo(data)
+      .then((newDate) => {
+        setCurrentUser(newDate);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -61,15 +71,11 @@ function App() {
 
         <Footer />
 
-        <PopupWithForm
-          title="Редактировать профиль"
-          name="profile"
-          buttonTitle="Сохранить"
+        <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-        >
-          <EditProfilePopup />
-        </PopupWithForm>
+          onUpdateUser={handleUpdateUser}
+        />
 
         <PopupWithForm
           title="Новое место"
@@ -78,12 +84,7 @@ function App() {
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
         >
-          <form
-            name="add-picture"
-            className="popup__form"
-            autoComplete="off"
-            noValidate
-          >
+          <>
             <div className="popup__section">
               <input
                 required
@@ -114,46 +115,33 @@ function App() {
                 id="picture-link-error"
               ></span>
             </div>
-          </form>
+          </>
         </PopupWithForm>
-
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-
         <PopupWithForm
           title="Вы уверены?"
           name="confirm"
           buttonTitle="Да"
           isOpen={false}
         />
-
         <PopupWithForm
           title="Обновить аватар"
-          name="vatar-form"
+          name="avatar-form"
           buttonTitle="Сохранить"
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
         >
-          <form
-            name="upg-avatar"
-            className="popup__form"
-            autoComplete="off"
-            noValidate
-          >
-            <div className="popup__section">
-              <input
-                required
-                className="popup__text-field"
-                type="url"
-                placeholder="Ссылка на картинку"
-                name="avatar-link"
-                id="avatar-link"
-              />
-              <span
-                className="popup__input-error"
-                id="avatar-link-error"
-              ></span>
-            </div>
-          </form>
+          <div className="popup__section">
+            <input
+              required
+              className="popup__text-field"
+              type="url"
+              placeholder="Ссылка на картинку"
+              name="avatar-link"
+              id="avatar-link"
+            />
+            <span className="popup__input-error" id="avatar-link-error"></span>
+          </div>
         </PopupWithForm>
       </div>
     </CurrentUserContext.Provider>
