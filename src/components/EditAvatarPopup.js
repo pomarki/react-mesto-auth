@@ -7,23 +7,21 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
   const [value, setAvatar] = useState("");
   const avatarRef = React.useRef(0);
 
-/*   React.useEffect(() => {
+  React.useEffect(() => {
     setAvatar(currentUser.avatar);
-  }, [currentUser]); */
+  }, [currentUser]);
 
   function handleCangeAvatar(e) {
     setAvatar(e.target.value);
-    console.log(value)
   }
 
   function handleSubmit(e) {
-    // полученная в инпуте аватарка отправляется на сервер
     e.preventDefault();
 
     onUpdateAvatar({
       avatar: avatarRef.current.value,
     });
-    console.log(`это ссылка на аватар: ${avatarRef.current.value}`);
+    
   }
 
   return (
@@ -54,4 +52,4 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
 }
 
 export default EditAvatarPopup;
-// currentUser.avatar - это url до аватарки в Main
+

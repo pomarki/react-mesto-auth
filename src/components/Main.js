@@ -3,47 +3,16 @@ import api from "../utils/api";
 import Card from "../components/Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
-  const [initialCards, setCards] = useState([]);
+function Main({
+  onEditProfile,
+  onAddPlace,
+  onEditAvatar,
+  onCardClick,
+  cards,
+  onCardLike,
+  onCardDelete,
+}) {
   const currentUser = React.useContext(CurrentUserContext);
-
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((data) => {
-        setCards(
-          data.map((item) => ({
-            name: item.name,
-            link: item.link,
-            likes: item.likes,
-            cardId: item._id,
-            userId: item.owner._id,
-          }))
-        );
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
-  function handleCardLike(card) {
-    let isLiked = card.likes.some((item) => item._id === currentUser._id);
-
-    api
-      .changeLikeCardStatus(card._id, !isLiked)
-      .then((newCard) => {
-        setCards((state) =>
-          state.map((c) => (c._id === card._id ? newCard : c))
-        );
-        isLiked = !isLiked;
-      })
-      .catch((err) => console.log(err));
-  }
-
-  function handleCardDelete(cardId) {
-    api
-      .removeCard(cardId)
-      .then(setCards((state) => state.filter((item) => item.cardId != cardId)))
-      .catch((err) => console.log(err));
-  }
 
   return (
     <div className="content">
@@ -76,13 +45,13 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
       </section>
       <section className="elements page__elements">
         <ul className="elements__list">
-          {initialCards.map(({ cardId, ...card }) => (
+          {cards.map(({ cardId, ...card }) => (
             <Card
               key={cardId}
               {...card}
               onCardClick={onCardClick}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
               cardId={cardId}
             />
           ))}
