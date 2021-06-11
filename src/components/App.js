@@ -51,7 +51,7 @@ function App() {
 
   function handleUpdateUser(data) {
     api
-      .changeUserInfo(data.avatar)
+      .changeUserInfo(data)
       .then((newData) => {
         setCurrentUser(newData);
         closeAllPopups();
@@ -90,15 +90,15 @@ function App() {
   }, []);
 
   function handleCardLike(card) {
-    let isLiked = card.likes.some((item) => item._id === currentUser._id);
+    let isLiked = card.likes.some((item) => item._id === currentUser._id); // ищем в массиве лайков id юзера
 
     api
-      .changeLikeCardStatus(card._id, !isLiked)
+      .changeLikeCardStatus(card._id, !isLiked) // отправляем на сервер лайк/дизлайк отсюда надо отправлять лайкнутость карточки и кол-во лайков
       .then((newCard) => {
-        setCards((state) =>
-          state.map((c) => (c._id === card._id ? newCard : c))
+        // получаем с сервера объект с карточкой
+        setCards(
+          (state) => state.map((c) => (c._id === card._id ? newCard : c)) // обновлённые данные карточки
         );
-        isLiked = !isLiked;
       })
       .catch((err) => console.log(err));
   }

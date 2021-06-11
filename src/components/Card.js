@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Card({
@@ -16,57 +16,57 @@ function Card({
   }
 
   function handleLikeClick() {
-    onCardLike({ likes: likes, _id: cardId });
+    onCardLike({ likes: likes, _id: cardId }); // отправляет лайк на сайт
+    setLikeThisCard(!likeThisCard); //меняет отображение лайка на странице
   }
 
   function handleDeleteClick() {
     onCardDelete(cardId);
   }
 
+  
   const currentUser = React.useContext(CurrentUserContext);
   const isOwn = userId === currentUser._id;
-  let isLiked = likes.some((item) => item._id === currentUser._id);
+  let isLiked = likes.some((item) => item._id === currentUser._id); // при рендере карточки проверяет лайк юзера
+  const [likeThisCard, setLikeThisCard] = useState(isLiked); // стейт-переменная лайка юзера
   const cardDeleteButtonClassName = `element__trash ${
     isOwn ? "element__trash_visible" : ""
   }`;
 
   let cardLikeButtonClassName = `element__info-heart ${
-    isLiked ? "" : "element__info-heart_type_disabled"
+    likeThisCard ? "" : "element__info-heart_type_disabled"
   }`;
 
   return (
-    
-    
-      <li className="elements__item">
-        <div className="element">
-          <button
-            type="button"
-            className={cardDeleteButtonClassName}
-            onClick={handleDeleteClick}
-          ></button>
-          <div
-            className="element__img"
-            onClick={handleClick}
-            style={{
-              backgroundImage: `url(${link})`,
-              backgroundSize: "cover",
-              ariaLabel: { name },
-            }}
-          ></div>
-          <div className="element__info">
-            <h2 className="element__info-place">{name}</h2>
-            <div className="element__likes-container">
-              <button
-                type="button"
-                onClick={handleLikeClick}
-                className={cardLikeButtonClassName}
-              ></button>
-              <span className="element__info-likes">{likes.length}</span>
-            </div>
+    <li className="elements__item">
+      <div className="element">
+        <button
+          type="button"
+          className={cardDeleteButtonClassName}
+          onClick={handleDeleteClick}
+        ></button>
+        <div
+          className="element__img"
+          onClick={handleClick}
+          style={{
+            backgroundImage: `url(${link})`,
+            backgroundSize: "cover",
+            ariaLabel: { name },
+          }}
+        ></div>
+        <div className="element__info">
+          <h2 className="element__info-place">{name}</h2>
+          <div className="element__likes-container">
+            <button
+              type="button"
+              onClick={handleLikeClick}
+              className={cardLikeButtonClassName}
+            ></button>
+            <span className="element__info-likes">{likes.length}</span>
           </div>
         </div>
-      </li>
-    
+      </div>
+    </li>
   );
 }
 
