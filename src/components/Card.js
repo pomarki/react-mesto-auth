@@ -11,30 +11,30 @@ function Card({
   onCardDelete,
   cardId,
 }) {
+  
+
   function handleClick() {
     onCardClick({ name: name, link: link });
   }
 
   function handleLikeClick() {
-    onCardLike({ likes: likes, _id: cardId }); // отправляет лайк на сайт
-    setLikeThisCard(!likeThisCard); //меняет отображение лайка на странице
+    onCardLike({ _id: cardId, isLiked: isLiked });
   }
 
   function handleDeleteClick() {
     onCardDelete(cardId);
   }
 
-  
   const currentUser = React.useContext(CurrentUserContext);
   const isOwn = userId === currentUser._id;
-  let isLiked = likes.some((item) => item._id === currentUser._id); // при рендере карточки проверяет лайк юзера
-  const [likeThisCard, setLikeThisCard] = useState(isLiked); // стейт-переменная лайка юзера
+  let isLiked = likes.some((item) => item._id === currentUser._id);
+
   const cardDeleteButtonClassName = `element__trash ${
     isOwn ? "element__trash_visible" : ""
   }`;
 
   let cardLikeButtonClassName = `element__info-heart ${
-    likeThisCard ? "" : "element__info-heart_type_disabled"
+    isLiked ? "" : "element__info-heart_type_disabled"
   }`;
 
   return (

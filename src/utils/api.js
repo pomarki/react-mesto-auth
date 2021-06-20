@@ -97,8 +97,8 @@ export class Api {
 
 const api = new Api({
   address: "https://mesto.nomoreparties.co/v1",
-  token: "a871f903-a7ec-46a6-99c3-83953182d0a9",
-  groupID: "cohort-22",
+  token: "d95419b6-4638-4201-aa00-6c5b095421aa",
+  groupID: "cohort-24",
 });
 
 export default api;

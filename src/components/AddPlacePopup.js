@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import PopupWithForm from "../components/PopupWithForm";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function AddPlacePopup({ onClose, isOpen, onAddPlace }) {
   const [pictureLink, setPictureLink] = useState("");
   const [name, setPictureName] = useState("");
-
+  const currentUser = React.useContext(CurrentUserContext);
   function handlePictureLink(e) {
     setPictureLink(e.target.value);
   }
@@ -15,7 +16,7 @@ function AddPlacePopup({ onClose, isOpen, onAddPlace }) {
   function handleSubmit(e) {
     e.preventDefault();
     onAddPlace({
-      name,
+      name: name,
       link: pictureLink,
     });
   }

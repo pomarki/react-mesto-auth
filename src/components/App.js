@@ -12,7 +12,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function App() {
   const [isEditProfilePopupOpen, setStateProfile] = useState(false);
-  const [isAddPlacePopupOpen, setStateAdd] = useState(false); // add card
+  const [isAddPlacePopupOpen, setStateAdd] = useState(false);
   const [isEditAvatarPopupOpen, setStateAvatar] = useState(false);
   const [selectedCard, setSelectedCard] = useState(undefined);
   const [currentUser, setCurrentUser] = useState({});
@@ -90,16 +90,24 @@ function App() {
   }, []);
 
   function handleCardLike(card) {
-    let isLiked = card.likes.some((item) => item._id === currentUser._id); // ищем в массиве лайков id юзера
-
     api
-      .changeLikeCardStatus(card._id, !isLiked) // отправляем на сервер лайк/дизлайк отсюда надо отправлять лайкнутость карточки и кол-во лайков
-      .then((newCard) => {
-        // получаем с сервера объект с карточкой
-        setCards(
-          (state) => state.map((c) => (c._id === card._id ? newCard : c)) // обновлённые данные карточки
-        );
+      .changeLikeCardStatus(card._id, !card.isLiked)
+      .then((updatedCard) => {
+        const newCards = initialCards.map((card) => {
+          return card.cardId !== updatedCard._id
+            ? card
+            : {
+                name: updatedCard.name,
+                link: updatedCard.link,
+                likes: updatedCard.likes,
+                cardId: updatedCard._id,
+                userId: updatedCard.owner._id,
+              };
+        });
+        setCards(newCards);
+        console.log(updatedCard);
       })
+
       .catch((err) => console.log(err));
   }
 
@@ -113,14 +121,19 @@ function App() {
   function handleAddPlace(card) {
     api
       .sendNewCard(card)
-      .then((newCard) => {
+      .then((data) => {
+        const newCard = {
+          name: data.name,
+          link: data.link,
+          likes: data.likes,
+          cardId: data._id,
+          userId: data.owner._id,
+        };
         setCards([newCard, ...initialCards]);
         closeAllPopups();
       })
       .catch((err) => console.log(err));
   }
-
-  // cards from Main end
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
