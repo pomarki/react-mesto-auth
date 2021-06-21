@@ -14,11 +14,11 @@ function EditProfilePopup({ onUpdateUser, isOpen, onClose }) {
 
   function handleCangeName(e) {
     setName(e.target.value);
-    console.log("name:", e.target.value);
+    
   }
   function handleCangeDescription(e) {
     setDescription(e.target.value);
-    console.log("description:", e.target.value);
+    
   }
 
   function handleSubmit(e) {

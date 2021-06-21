@@ -20,6 +20,8 @@ function AddPlacePopup({ onClose, isOpen, onAddPlace }) {
       name: name,
       link: pictureLink,
     });
+    setPictureLink("");
+    setPictureName("");
   }
 
   return (

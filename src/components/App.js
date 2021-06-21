@@ -106,7 +106,7 @@ function App() {
               };
         });
         setCards(newCards);
-        console.log(updatedCard);
+        
       })
 
       .catch((err) => console.log(err));
