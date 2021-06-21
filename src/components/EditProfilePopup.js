@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "../components/PopupWithForm";
 
-function EditProfilePopup({onUpdateUser, isOpen, onClose}) {
+function EditProfilePopup({ onUpdateUser, isOpen, onClose }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const currentUser = React.useContext(CurrentUserContext);
@@ -14,17 +14,17 @@ function EditProfilePopup({onUpdateUser, isOpen, onClose}) {
 
   function handleCangeName(e) {
     setName(e.target.value);
-    
+    console.log("name:", e.target.value)
   }
   function handleCangeDescription(e) {
     setDescription(e.target.value);
-    
+    console.log("description:", e.target.value)
   }
 
   function handleSubmit(e) {
     e.preventDefault();
     onUpdateUser({
-      name,
+      name: name,
       about: description,
     });
   }

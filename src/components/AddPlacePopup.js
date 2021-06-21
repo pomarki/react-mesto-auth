@@ -7,9 +7,11 @@ function AddPlacePopup({ onClose, isOpen, onAddPlace }) {
 
   function handlePictureLink(e) {
     setPictureLink(e.target.value);
+    
   }
   function handlePiktureName(e) {
     setPictureName(e.target.value);
+    
   }
 
   function handleSubmit(e) {
@@ -32,6 +34,7 @@ function AddPlacePopup({ onClose, isOpen, onAddPlace }) {
       <>
         <div className="popup__section">
           <input
+            value={name}
             required
             minLength="2"
             maxLength="30"
@@ -46,6 +49,7 @@ function AddPlacePopup({ onClose, isOpen, onAddPlace }) {
         </div>
         <div className="popup__section">
           <input
+            value={pictureLink}
             required
             className="popup__text-field"
             onChange={handlePictureLink}

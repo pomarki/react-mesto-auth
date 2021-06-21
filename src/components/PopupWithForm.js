@@ -24,7 +24,7 @@ function PopupWithForm({
         ></button>
         <h2 className="popup__title">{title}</h2>
         <form
-          name={name} // name поменялся с прошлого проекта!
+          name={name}
           onSubmit={onSubmit}
           className="popup__form"
           autoccomplete="off"

@@ -9,10 +9,12 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
 
   React.useEffect(() => {
     setAvatar(currentUser.avatar);
+    
   }, [currentUser]);
 
   function handleCangeAvatar(e) {
     setAvatar(e.target.value);
+    
   }
 
   function handleSubmit(e) {

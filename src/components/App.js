@@ -14,8 +14,10 @@ function App() {
   const [isEditProfilePopupOpen, setStateProfile] = useState(false);
   const [isAddPlacePopupOpen, setStateAdd] = useState(false);
   const [isEditAvatarPopupOpen, setStateAvatar] = useState(false);
+  const [isDeletePopupOpen, setDeletePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(undefined);
   const [currentUser, setCurrentUser] = useState({});
+  const [initialCards, setCards] = useState([]);
 
   function handleCardClick(chosenCard) {
     setSelectedCard(chosenCard);
@@ -64,14 +66,10 @@ function App() {
       .sendNewAvatar(data.avatar)
       .then((newData) => {
         setCurrentUser(newData);
-        console.log("изменённый юзер:", newData)
         closeAllPopups();
       })
       .catch((err) => console.log(err));
   }
-
-  // cards from Main begin
-  const [initialCards, setCards] = useState([]);
 
   useEffect(() => {
     api
@@ -113,10 +111,16 @@ function App() {
   }
 
   function handleCardDelete(cardId) {
+    console.log(cardId);
+    setDeletePopupOpen(false);
     api
       .removeCard(cardId)
       .then(setCards((state) => state.filter((item) => item.cardId != cardId)))
       .catch((err) => console.log(err));
+  }
+
+  function handleDeleteClick(cardId) {
+    setDeletePopupOpen(true);
   }
 
   function handleAddPlace(card) {
@@ -148,7 +152,7 @@ function App() {
           onCardClick={handleCardClick}
           cards={initialCards}
           onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
+          onCardDelete={handleDeleteClick}
         />
 
         <Footer />
@@ -166,11 +170,13 @@ function App() {
         />
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+
         <PopupWithForm
           title="Вы уверены?"
           name="confirm"
           buttonTitle="Да"
-          isOpen={false}
+          isOpen={isDeletePopupOpen}
+          onSubmit={handleCardDelete}
         />
 
         <EditAvatarPopup
