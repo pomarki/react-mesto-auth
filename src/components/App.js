@@ -64,6 +64,7 @@ function App() {
       .sendNewAvatar(data.avatar)
       .then((newData) => {
         setCurrentUser(newData);
+        console.log("изменённый юзер:", newData)
         closeAllPopups();
       })
       .catch((err) => console.log(err));

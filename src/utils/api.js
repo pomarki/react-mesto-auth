@@ -87,11 +87,7 @@ export class Api {
       body: JSON.stringify({
         avatar,
       }),
-    }).then((response) =>
-      response.ok
-        ? Promise.resolve("success")
-        : Promise.reject(`Ошибка ${response.status}`)
-    );
+    }).then(this._checkResponse);
   }
 }
 
