@@ -18,6 +18,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(undefined);
   const [currentUser, setCurrentUser] = useState({});
   const [initialCards, setCards] = useState([]);
+  const [cardToDelete, setCardToDelete] = useState(null);
 
   function handleCardClick(chosenCard) {
     setSelectedCard(chosenCard);
@@ -40,6 +41,7 @@ function App() {
     setStateProfile(false);
     setStateAdd(false);
     setSelectedCard(undefined);
+    setDeletePopupOpen(false);
   }
 
   useEffect(() => {
@@ -110,17 +112,17 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  function handleCardDelete(cardId) {
-    console.log(cardId);
-    setDeletePopupOpen(false);
+  function handleCardDelete() {
+    closeAllPopups();
     api
-      .removeCard(cardId)
-      .then(setCards((state) => state.filter((item) => item.cardId != cardId)))
+      .removeCard(cardToDelete)
+      .then(setCards((state) => state.filter((item) => item.cardId != cardToDelete)))
       .catch((err) => console.log(err));
   }
 
   function handleDeleteClick(cardId) {
     setDeletePopupOpen(true);
+    setCardToDelete(cardId);
   }
 
   function handleAddPlace(card) {
@@ -175,6 +177,7 @@ function App() {
           title="Вы уверены?"
           name="confirm"
           buttonTitle="Да"
+          onClose={closeAllPopups}
           isOpen={isDeletePopupOpen}
           onSubmit={handleCardDelete}
         />

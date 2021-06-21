@@ -8,17 +8,17 @@ function EditProfilePopup({ onUpdateUser, isOpen, onClose }) {
   const currentUser = React.useContext(CurrentUserContext);
 
   React.useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
+    setName(currentUser.name || "");
+    setDescription(currentUser.about || "");
   }, [currentUser]);
 
   function handleCangeName(e) {
     setName(e.target.value);
-    console.log("name:", e.target.value)
+    console.log("name:", e.target.value);
   }
   function handleCangeDescription(e) {
     setDescription(e.target.value);
-    console.log("description:", e.target.value)
+    console.log("description:", e.target.value);
   }
 
   function handleSubmit(e) {
