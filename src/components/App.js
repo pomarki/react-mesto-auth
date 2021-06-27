@@ -43,12 +43,19 @@ function App() {
     setSelectedCard(undefined);
     setDeletePopupOpen(false);
   }
-
   useEffect(() => {
-    api
-      .getUserInfo()
-      .then((data) => {
-        setCurrentUser(data);
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userDate, cardsDate]) => {
+        setCurrentUser(userDate);
+        setCards(
+          cardsDate.map((card) => ({
+            name: card.name,
+            link: card.link,
+            likes: card.likes,
+            cardId: card._id,
+            userId: card.owner._id,
+          }))
+        );
       })
       .catch((err) => console.log(err));
   }, []);
@@ -73,23 +80,6 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((data) => {
-        setCards(
-          data.map((item) => ({
-            name: item.name,
-            link: item.link,
-            likes: item.likes,
-            cardId: item._id,
-            userId: item.owner._id,
-          }))
-        );
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
   function handleCardLike(card) {
     api
       .changeLikeCardStatus(card._id, !card.isLiked)
@@ -106,7 +96,6 @@ function App() {
               };
         });
         setCards(newCards);
-        
       })
 
       .catch((err) => console.log(err));
@@ -116,7 +105,9 @@ function App() {
     closeAllPopups();
     api
       .removeCard(cardToDelete)
-      .then(setCards((state) => state.filter((item) => item.cardId != cardToDelete)))
+      .then(
+        setCards((state) => state.filter((item) => item.cardId != cardToDelete))
+      )
       .catch((err) => console.log(err));
   }
 
