@@ -102,11 +102,13 @@ function App() {
   }
 
   function handleCardDelete() {
-    closeAllPopups();
     api
       .removeCard(cardToDelete)
       .then(
-        setCards((state) => state.filter((item) => item.cardId != cardToDelete))
+        setCards((state) =>
+          state.filter((item) => item.cardId != cardToDelete)
+        ),
+        closeAllPopups()
       )
       .catch((err) => console.log(err));
   }

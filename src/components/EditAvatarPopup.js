@@ -1,29 +1,15 @@
-import React, { useState } from "react";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import React, { useRef } from "react";
+
 import PopupWithForm from "../components/PopupWithForm";
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
-  const currentUser = React.useContext(CurrentUserContext);
-  const [value, setAvatar] = useState("");
-  const avatarRef = React.useRef();
-
-  React.useEffect(() => {
-    setAvatar(currentUser.avatar);
-    
-  }, [currentUser]);
-
-  function handleCangeAvatar(e) {
-    setAvatar(e.target.value);
-    
-  }
+  const avatarRef = useRef();
 
   function handleSubmit(e) {
     e.preventDefault();
-
     onUpdateAvatar({
       avatar: avatarRef.current.value,
     });
-    
   }
 
   return (
@@ -40,9 +26,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
           required
           className="popup__text-field"
           type="url"
-          value={value}
           ref={avatarRef}
-          onChange={handleCangeAvatar}
           placeholder="Ссылка на картинку"
           name="avatar-link"
           id="avatar-link"
@@ -54,4 +38,3 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
 }
 
 export default EditAvatarPopup;
-
