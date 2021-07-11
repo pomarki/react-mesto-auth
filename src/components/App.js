@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Main from "../components/Main";
 import Footer from "../components/Footer";
+import Register from "../components/Authorization";
 import PopupWithForm from "../components/PopupWithForm";
 import ImagePopup from "../components/ImagePopup";
+import PopupWithAuthorizationInfo from "../components/PopupWithAuthorizationInfo";
 import api from "../utils/api";
 import EditProfilePopup from "../components/EditProfilePopup";
 import EditAvatarPopup from "../components/EditAvatarPopup";
@@ -15,6 +17,7 @@ function App() {
   const [isAddPlacePopupOpen, setStateAdd] = useState(false);
   const [isEditAvatarPopupOpen, setStateAvatar] = useState(false);
   const [isDeletePopupOpen, setDeletePopupOpen] = useState(false);
+  const [isPopupWithAuthorizationInfoOpen, setPopupWithAuthorizationInfo] = useState(false);
   const [selectedCard, setSelectedCard] = useState(undefined);
   const [currentUser, setCurrentUser] = useState({});
   const [initialCards, setCards] = useState([]);
@@ -42,6 +45,7 @@ function App() {
     setStateAdd(false);
     setSelectedCard(undefined);
     setDeletePopupOpen(false);
+    setPopupWithAuthorizationInfo(false);
   }
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -135,12 +139,19 @@ function App() {
       .catch((err) => console.log(err));
   }
 
+  function handleRegisterUser() {
+    /* setPopupWithAuthorizationInfo(true); */
+    
+    
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
 
         <Main
+          isVisible={false}
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
@@ -150,7 +161,10 @@ function App() {
           onCardDelete={handleDeleteClick}
         />
 
-        <Footer />
+        <Register isVisible={true} onRegisterUser={handleRegisterUser}/>
+        <InfoTooltip isOpen={isPopupWithAuthorizationInfoOpen} isLogged={false} onClose={closeAllPopups}/>
+
+        <Footer isVisible={false} />
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}

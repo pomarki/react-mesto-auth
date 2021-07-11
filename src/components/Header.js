@@ -1,5 +1,5 @@
 import React from 'react';
-function Header(props) {
+function Header() {
     return(
         <header className="header page__header">
         <div className="header__logo"></div>

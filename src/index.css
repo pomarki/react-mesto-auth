@@ -1,6 +1,7 @@
 @import url(../src/vendor/normalize.css);
 @import url(../src/vendor/fonts/fonts.css);
 @import url(../src/blocks/content/content.css);
+@import url(../src/blocks/content/_visible/content_visible.css);
 @import url(../src/blocks/page/page.css);
 @import url(../src/blocks/page/__elements/page__elements.css);
 @import url(../src/blocks/page/__footer/page__footer.css);
@@ -46,6 +47,17 @@
 @import url(../src/blocks/popup/__picture-img/popup__picture-img.css);
 @import url(../src/blocks/popup/__picture-container/popup__picture-container.css);
 @import url(../src/blocks/popup/__picture-subtitle/popup__picture-subtitle.css);
+@import url(../src/blocks/popup/__info-picture/popup__info-picture.css);
+@import url(../src/blocks/popup/__info-picture/_type/popup__info-picture_type_fail.css);
+@import url(../src/blocks/popup/__subtitle/popup__subtitle.css);
 @import url(../src/blocks/link/link.css);
 @import url(../src/blocks/footer/footer.css);
+@import url(../src/blocks/footer/_visible/footer_visible.css);
 @import url(../src/blocks/footer/__copyright/footer__copyright.css);
+@import url(../src/blocks/authorization/authorization.css);
+@import url(../src/blocks/authorization/__button/authorization__button.css);
+@import url(../src/blocks/authorization/__form/authorization__form.css);
+@import url(../src/blocks/authorization/__input/authorization__input.css);
+@import url(../src/blocks/authorization/__subtitle/authorization__subtitle.css);
+@import url(../src/blocks/authorization/__title/authorization__title.css);
+@import url(../src/blocks/authorization/_visible/authorization_visible.css);

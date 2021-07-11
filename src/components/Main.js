@@ -3,6 +3,7 @@ import Card from "../components/Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main({
+  isVisible,
   onEditProfile,
   onAddPlace,
   onEditAvatar,
@@ -14,7 +15,7 @@ function Main({
   const currentUser = React.useContext(CurrentUserContext);
 
   return (
-    <div className="content">
+    <div className={`content ${isVisible && "content_visible"}`}>
       <section className="profile page__profile">
         <div
           style={{
