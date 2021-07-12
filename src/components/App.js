@@ -2,26 +2,30 @@ import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Main from "../components/Main";
 import Footer from "../components/Footer";
-import Register from "../components/Authorization";
+import Register from "../components/Register";
+import Login from "../components/Login";
 import PopupWithForm from "../components/PopupWithForm";
 import ImagePopup from "../components/ImagePopup";
-import PopupWithAuthorizationInfo from "../components/PopupWithAuthorizationInfo";
+import InfoTooltip from "../components/InfoTooltip";
 import api from "../utils/api";
 import EditProfilePopup from "../components/EditProfilePopup";
 import EditAvatarPopup from "../components/EditAvatarPopup";
 import AddPlacePopup from "../components/AddPlacePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { Route, Switch } from "react-router-dom";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 function App() {
   const [isEditProfilePopupOpen, setStateProfile] = useState(false);
   const [isAddPlacePopupOpen, setStateAdd] = useState(false);
   const [isEditAvatarPopupOpen, setStateAvatar] = useState(false);
   const [isDeletePopupOpen, setDeletePopupOpen] = useState(false);
-  const [isPopupWithAuthorizationInfoOpen, setPopupWithAuthorizationInfo] = useState(false);
+  const [isInfoTooltip, setInfoTooltip] = useState(false);
   const [selectedCard, setSelectedCard] = useState(undefined);
   const [currentUser, setCurrentUser] = useState({});
   const [initialCards, setCards] = useState([]);
   const [cardToDelete, setCardToDelete] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   function handleCardClick(chosenCard) {
     setSelectedCard(chosenCard);
@@ -45,7 +49,7 @@ function App() {
     setStateAdd(false);
     setSelectedCard(undefined);
     setDeletePopupOpen(false);
-    setPopupWithAuthorizationInfo(false);
+    setInfoTooltip(false);
   }
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -141,28 +145,40 @@ function App() {
 
   function handleRegisterUser() {
     /* setPopupWithAuthorizationInfo(true); */
-    
-    
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
+        <Switch>
+          <ProtectedRoute
+            exact
+            path="/"
+            loggedIn={loggedIn}
+            component={
+              <Main
+                isVisible={true}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleEditAvatarClick}
+                onCardClick={handleCardClick}
+                cards={initialCards}
+                onCardLike={handleCardLike}
+                onCardDelete={handleDeleteClick}
+              />
+            }
+          />
 
-        <Main
-          isVisible={false}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick}
-          cards={initialCards}
-          onCardLike={handleCardLike}
-          onCardDelete={handleDeleteClick}
-        />
+          <Route path="/sing-up">
+            <Register onRegisterUser={handleRegisterUser} />
+          </Route>
 
-        <Register isVisible={true} onRegisterUser={handleRegisterUser}/>
-        <InfoTooltip isOpen={isPopupWithAuthorizationInfoOpen} isLogged={false} onClose={closeAllPopups}/>
+          <Route path="/sing-in">
+            <Login />
+          </Route>
+        </Switch>
+
+        <InfoTooltip isOpen={false} isLogged={false} onClose={closeAllPopups} />
 
         <Footer isVisible={false} />
 

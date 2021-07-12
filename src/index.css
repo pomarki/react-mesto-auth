@@ -10,6 +10,7 @@
 @import url(../src/blocks/page/__profile/page__profile.css);
 @import url(../src/blocks/header/header.css);
 @import url(../src/blocks/header/__logo/header__logo.css);
+@import url(../src/blocks/header/__user-status/header__user-status.css);
 @import url(../src/blocks/profile/profile.css);
 @import url(../src/blocks/profile/__add-button/profile__add-button.css);
 @import url(../src/blocks/profile/__avatar/profile__avatar.css);
@@ -60,4 +61,4 @@
 @import url(../src/blocks/authorization/__input/authorization__input.css);
 @import url(../src/blocks/authorization/__subtitle/authorization__subtitle.css);
 @import url(../src/blocks/authorization/__title/authorization__title.css);
-@import url(../src/blocks/authorization/_visible/authorization_visible.css);
+@import url(../src/blocks/authorization/_type/authorization_type_visible.css);

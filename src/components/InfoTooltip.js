@@ -1,7 +1,7 @@
 import React from "react";
 
-function PopupWithAuthorizationInfo({ isOpen, isLogged, onClose }) {
-  console.log(isLogged);
+function InfoTooltip({ isOpen, isLogged, onClose }) {
+  
   const infoPictureType = isLogged
     ? "popup__info-picture"
     : "popup__info-picture popup__info-picture_type_fail";
@@ -26,4 +26,4 @@ function PopupWithAuthorizationInfo({ isOpen, isLogged, onClose }) {
   );
 }
 
-export default PopupWithAuthorizationInfo;
+export default InfoTooltip;
