@@ -151,6 +151,7 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Switch>
+          
           <ProtectedRoute
             exact
             path="/"
