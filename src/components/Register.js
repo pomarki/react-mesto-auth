@@ -38,7 +38,11 @@ function Register() {
     auth
       .register(password, email)
       .then((response) => {
-        response ? openInfoTooltip(true) : openInfoTooltip(false);
+        if (response) {
+          openInfoTooltip(true);
+        } else {
+          openInfoTooltip(false);
+        }
       })
       .catch((err) => console.log(err));
   }

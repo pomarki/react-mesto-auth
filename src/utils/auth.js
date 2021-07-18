@@ -1,4 +1,12 @@
 export const BASE_URL = "https://auth.nomoreparties.co";
+
+function checkRequestResult(response) {
+  if (response.ok) {
+    return response.json();
+  }
+  return Promise.reject(`!error: ${response.status}`);
+}
+
 export const register = (password, email) => {
   return fetch(`${BASE_URL}/signup`, {
     method: "POST",
@@ -8,14 +16,10 @@ export const register = (password, email) => {
     },
     body: JSON.stringify({ password, email }),
   })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      return Promise.reject(`error: ${response.status}`);
-    })
+    .then(checkRequestResult)
     .catch((err) => console.log(`error: ${err}`));
 };
+
 
 export const login = (password, email) => {
   return fetch(`${BASE_URL}/signin`, {
@@ -26,11 +30,12 @@ export const login = (password, email) => {
     },
     body: JSON.stringify({ password, email }),
   })
-    .then((response) => response.json())
+    .then(checkRequestResult)
     .then((data) => {
-      if (data.jwt) {
-        localStorage.setItem("jwt", data.jwt);
-        return data;
+      console.log(data);
+      if (data.token) {
+        localStorage.setItem("jwt", data.token);
+        return data.token;
       } else {
         return;
       }

@@ -143,11 +143,15 @@ function App() {
       .catch((err) => console.log(err));
   }
 
+  function handleLogin(e) {
+    e.preventDefault();
+    setLoggedIn(true);
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Switch>
-
           <ProtectedRoute
             exact
             path="/"
@@ -171,7 +175,7 @@ function App() {
           </Route>
 
           <Route path="/sing-in">
-            <Login />
+            <Login handleLogin={handleLogin} />
           </Route>
         </Switch>
 

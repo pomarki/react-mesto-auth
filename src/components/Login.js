@@ -3,12 +3,10 @@ import Header from "./Header";
 import * as auth from "../utils/auth";
 import { useHistory } from "react-router-dom";
 
-
-function Login() {
+function Login({ handleLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
-
 
   function handleHistory() {
     history.push("/");
@@ -22,12 +20,17 @@ function Login() {
   }
   function handleSubmit(e) {
     e.preventDefault();
-    let userDate = { password: password, email: email };
-    auth.login(password, email).then(() => {
-      handleHistory();
-    })
-    .catch((err) => console.log(err));
-    
+    auth
+      .login(password, email)
+      .then((data) => {
+        if (data) {
+          setEmail("");
+          setPassword("");
+        }
+        handleHistory();
+        handleLogin(e);
+      })
+      .catch((err) => console.log(err));
   }
   return (
     <>
@@ -43,12 +46,15 @@ function Login() {
             onChange={handleEnterEmail}
           />
           <input
-            type="password" className="authorization__input"
+            type="password"
+            className="authorization__input"
             placeholder="Пароль"
             value={password}
             onChange={handleEnterPassword}
           />
-          <button onClick={handleSubmit} className="authorization__button">Войти</button>
+          <button onClick={handleSubmit} className="authorization__button">
+            Войти
+          </button>
         </form>
       </div>
     </>
