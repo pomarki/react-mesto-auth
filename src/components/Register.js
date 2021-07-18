@@ -1,12 +1,31 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import Header from "./Header";
-import * as Auth from "./Auth";
-import { useHistory } from 'react-router-dom';
+import * as auth from "../utils/auth";
+import { useHistory } from "react-router-dom";
+import InfoTooltip from "./InfoTooltip";
 
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const history = useHistory();
+  const [isRegisterDone, setRegisterDone] = useState(false);
+  const [isInfoTooltipopen, setInfoTooltipopen] = useState(false);
+
+  function handleCloseInfoTooltip() {
+    const status = isRegisterDone;
+    handleHistory(status);
+    setInfoTooltipopen(false);
+  }
+
+  function openInfoTooltip(status) {
+    setInfoTooltipopen(true);
+    setRegisterDone(status);
+  }
+
+  function handleHistory(status) {
+    status ? history.push("/sing-in") : history.push("/sing-up");
+  }
 
   function handleChangeEmail(e) {
     setEmail(e.target.value);
@@ -16,9 +35,12 @@ function Register() {
   }
   function handleSubmit(e) {
     e.preventDefault();
-    let userDate = { password: password, email: email };
-    Auth.register(password, email);
-    
+    auth
+      .register(password, email)
+      .then((response) => {
+        response ? openInfoTooltip(true) : openInfoTooltip(false);
+      })
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -51,6 +73,11 @@ function Register() {
           Уже зарегистрированы? Войти
         </Link>
       </div>
+      <InfoTooltip
+        isOpen={isInfoTooltipopen}
+        isLogged={isRegisterDone}
+        onClose={handleCloseInfoTooltip}
+      />
     </>
   );
 }

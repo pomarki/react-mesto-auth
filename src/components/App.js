@@ -143,15 +143,11 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  function handleRegisterUser() {
-    /* setPopupWithAuthorizationInfo(true); */
-  }
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Switch>
-          
+
           <ProtectedRoute
             exact
             path="/"
@@ -171,7 +167,7 @@ function App() {
           />
 
           <Route path="/sing-up">
-            <Register onRegisterUser={handleRegisterUser} />
+            <Register />
           </Route>
 
           <Route path="/sing-in">
