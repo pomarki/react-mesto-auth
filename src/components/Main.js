@@ -3,6 +3,7 @@ import Card from "../components/Card";
 import Header from "./Header";
 import Footer from "./Footer";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { useHistory } from "react-router-dom";
 
 function Main({
   onEditProfile,
@@ -12,12 +13,19 @@ function Main({
   cards,
   onCardLike,
   onCardDelete,
+  userEmail,
 }) {
   const currentUser = React.useContext(CurrentUserContext);
+  const history = useHistory();
+
+  function signOut() {
+    localStorage.removeItem("jwt");
+    history.push("/sing-in");
+  }
 
   return (
     <>
-      <Header />
+      <Header userEmail={userEmail} userStatus={"Выйти"} signOut={signOut}/>
       <div className="content">
         <section className="profile page__profile">
           <div

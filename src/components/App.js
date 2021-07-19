@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Header from "../components/Header";
+
 import Main from "../components/Main";
-import Footer from "../components/Footer";
+
 import Register from "../components/Register";
 import Login from "../components/Login";
 import PopupWithForm from "../components/PopupWithForm";
@@ -14,6 +14,8 @@ import AddPlacePopup from "../components/AddPlacePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { Route, Switch } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
+import * as auth from "../utils/auth";
+import { useHistory } from "react-router-dom";
 
 function App() {
   const [isEditProfilePopupOpen, setStateProfile] = useState(false);
@@ -26,6 +28,8 @@ function App() {
   const [initialCards, setCards] = useState([]);
   const [cardToDelete, setCardToDelete] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const history = useHistory();
+  const [userEmail, setUserEmail] = useState("");
 
   function handleCardClick(chosenCard) {
     setSelectedCard(chosenCard);
@@ -146,9 +150,24 @@ function App() {
   function handleLogin() {
     setLoggedIn(true);
   }
+
   useEffect(() => {
-    console.log(`я отработал ${loggedIn}`);
-  }, [loggedIn]);
+    tokenCheck();
+  }, []);
+
+  function tokenCheck() {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      auth.getContent(jwt).then((res) => {
+        if (res) {
+          console.log(res);
+          setUserEmail(res.data.email);
+          setLoggedIn(true);
+          history.push("/");
+        }
+      });
+    }
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -165,6 +184,7 @@ function App() {
             cards={initialCards}
             onCardLike={handleCardLike}
             onCardDelete={handleDeleteClick}
+            userEmail={userEmail}
             component={Main}
           />
 
@@ -177,7 +197,7 @@ function App() {
           </Route>
         </Switch>
 
-        <InfoTooltip isOpen={false} isLogged={false} onClose={closeAllPopups} />
+        <InfoTooltip isOpen={isInfoTooltip} isLogged={false} onClose={closeAllPopups} />
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}

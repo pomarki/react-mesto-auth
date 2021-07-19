@@ -20,7 +20,6 @@ export const register = (password, email) => {
     .catch((err) => console.log(`error: ${err}`));
 };
 
-
 export const authorize = (password, email) => {
   return fetch(`${BASE_URL}/signin`, {
     method: "POST",
@@ -32,7 +31,6 @@ export const authorize = (password, email) => {
   })
     .then(checkRequestResult)
     .then((data) => {
-      console.log(data);
       if (data.token) {
         localStorage.setItem("jwt", data.token);
         return data.token;
@@ -41,4 +39,15 @@ export const authorize = (password, email) => {
       }
     })
     .catch((err) => console.log(`error: ${err}`));
+};
+
+export const getContent = (token) => {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(checkRequestResult);
 };

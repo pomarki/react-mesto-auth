@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "./Header";
 import * as auth from "../utils/auth";

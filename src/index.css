@@ -10,6 +10,8 @@
 @import url(../src/blocks/header/header.css);
 @import url(../src/blocks/header/__logo/header__logo.css);
 @import url(../src/blocks/header/__user-status/header__user-status.css);
+@import url(../src/blocks/header/__user-email/header__user-email.css);
+@import url(../src/blocks/header/__profile-container/header__profile-container.css);
 @import url(../src/blocks/profile/profile.css);
 @import url(../src/blocks/profile/__add-button/profile__add-button.css);
 @import url(../src/blocks/profile/__avatar/profile__avatar.css);
