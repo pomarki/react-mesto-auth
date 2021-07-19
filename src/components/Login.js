@@ -20,11 +20,13 @@ function Login({ handleLogin }) {
       .authorize(password, email)
       .then((token) => {
         if (token) {
+          handleLogin();
           setEmail("");
           setPassword("");
+          history.push("/");
+          
         }
-        history.push("/");
-        handleLogin();
+       
       })
       .catch((err) => console.log(err));
   }

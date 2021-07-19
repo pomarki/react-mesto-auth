@@ -1,10 +1,10 @@
 import React from "react";
 import Card from "../components/Card";
 import Header from "./Header";
+import Footer from "./Footer";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main({
-  isVisible,
   onEditProfile,
   onAddPlace,
   onEditAvatar,
@@ -18,7 +18,7 @@ function Main({
   return (
     <>
       <Header />
-      <div className={`content ${isVisible && "content_visible"}`}>
+      <div className="content">
         <section className="profile page__profile">
           <div
             style={{
@@ -61,6 +61,7 @@ function Main({
           </ul>
         </section>
       </div>
+      <Footer />
     </>
   );
 }

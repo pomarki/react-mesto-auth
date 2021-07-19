@@ -145,28 +145,27 @@ function App() {
 
   function handleLogin() {
     setLoggedIn(true);
-    console.log(`я отработал ${loggedIn}`);
   }
+  useEffect(() => {
+    console.log(`я отработал ${loggedIn}`);
+  }, [loggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Switch>
           <ProtectedRoute
-            exact path="/"
+            exact
+            path="/"
             loggedIn={loggedIn}
-            component={
-              <Main
-                isVisible={true}
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onCardClick={handleCardClick}
-                cards={initialCards}
-                onCardLike={handleCardLike}
-                onCardDelete={handleDeleteClick}
-              />
-            }
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardClick}
+            cards={initialCards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleDeleteClick}
+            component={Main}
           />
 
           <Route path="/sing-up">
@@ -179,8 +178,6 @@ function App() {
         </Switch>
 
         <InfoTooltip isOpen={false} isLogged={false} onClose={closeAllPopups} />
-
-        <Footer isVisible={false} />
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
