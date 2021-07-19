@@ -143,9 +143,9 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  function handleLogin(e) {
-    e.preventDefault();
+  function handleLogin() {
     setLoggedIn(true);
+    console.log(`я отработал ${loggedIn}`);
   }
 
   return (
@@ -153,8 +153,7 @@ function App() {
       <div className="page">
         <Switch>
           <ProtectedRoute
-            exact
-            path="/"
+            exact path="/"
             loggedIn={loggedIn}
             component={
               <Main

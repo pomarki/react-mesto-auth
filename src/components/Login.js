@@ -7,11 +7,7 @@ function Login({ handleLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
-
-  function handleHistory() {
-    history.push("/");
-  }
-
+  
   function handleEnterEmail(e) {
     setEmail(e.target.value);
   }
@@ -21,14 +17,14 @@ function Login({ handleLogin }) {
   function handleSubmit(e) {
     e.preventDefault();
     auth
-      .login(password, email)
-      .then((data) => {
-        if (data) {
+      .authorize(password, email)
+      .then((token) => {
+        if (token) {
           setEmail("");
           setPassword("");
         }
-        handleHistory();
-        handleLogin(e);
+        history.push("/");
+        handleLogin();
       })
       .catch((err) => console.log(err));
   }
