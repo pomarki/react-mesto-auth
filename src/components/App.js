@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-
 import Main from "../components/Main";
-
 import Register from "../components/Register";
 import Login from "../components/Login";
 import PopupWithForm from "../components/PopupWithForm";
@@ -22,7 +20,6 @@ function App() {
   const [isAddPlacePopupOpen, setStateAdd] = useState(false);
   const [isEditAvatarPopupOpen, setStateAvatar] = useState(false);
   const [isDeletePopupOpen, setDeletePopupOpen] = useState(false);
-  const [isInfoTooltip, setInfoTooltip] = useState(false);
   const [selectedCard, setSelectedCard] = useState(undefined);
   const [currentUser, setCurrentUser] = useState({});
   const [initialCards, setCards] = useState([]);
@@ -30,6 +27,22 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const history = useHistory();
   const [userEmail, setUserEmail] = useState("");
+  const [isRegisterDone, setRegisterDone] = useState(false);
+  const [isInfoTooltipopen, setInfoTooltipopen] = useState(false);
+
+  function openInfoTooltip(status) {
+    setInfoTooltipopen(true);
+    setRegisterDone(status);
+  }
+  function handleHistory(status) {
+    status ? history.push("/sing-in") : history.push("/sing-up");
+  }
+
+  function handleCloseInfoTooltip() {
+    const status = isRegisterDone;
+    handleHistory(status);
+    setInfoTooltipopen(false);
+  }
 
   function handleCardClick(chosenCard) {
     setSelectedCard(chosenCard);
@@ -53,8 +66,8 @@ function App() {
     setStateAdd(false);
     setSelectedCard(undefined);
     setDeletePopupOpen(false);
-    setInfoTooltip(false);
   }
+
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userDate, cardsDate]) => {
@@ -158,15 +171,46 @@ function App() {
   function tokenCheck() {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
-      auth.getContent(jwt).then((res) => {
-        if (res) {
-          console.log(res);
-          setUserEmail(res.data.email);
-          setLoggedIn(true);
+      auth
+        .getContent(jwt)
+        .then((res) => {
+          if (res) {
+            console.log(res);
+            setUserEmail(res.data.email);
+            setLoggedIn(true);
+            history.push("/");
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }
+
+  function registerUser(password, email) {
+    auth
+      .register(password, email)
+      .then((response) => {
+        if (response) {
+          openInfoTooltip(true);
+        } else {
+          openInfoTooltip(false);
+        }
+      })
+      .catch((err) => {
+        openInfoTooltip(false);
+        console.log(err);
+      });
+  }
+
+  function authorizationUser(password, email) {
+    auth
+      .authorize(password, email)
+      .then((token) => {
+        if (token) {
+          handleLogin();
           history.push("/");
         }
-      });
-    }
+      })
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -189,15 +233,19 @@ function App() {
           />
 
           <Route path="/sing-up">
-            <Register />
+            <Register registerUser={registerUser} />
           </Route>
 
           <Route path="/sing-in">
-            <Login handleLogin={handleLogin} />
+            <Login authorizationUser={authorizationUser} />
           </Route>
         </Switch>
 
-        <InfoTooltip isOpen={isInfoTooltip} isLogged={false} onClose={closeAllPopups} />
+        <InfoTooltip
+          isOpen={isInfoTooltipopen}
+          isLogged={isRegisterDone}
+          onClose={handleCloseInfoTooltip}
+        />
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}

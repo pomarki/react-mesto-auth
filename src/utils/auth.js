@@ -15,9 +15,7 @@ export const register = (password, email) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ password, email }),
-  })
-    .then(checkRequestResult)
-    .catch((err) => console.log(`error: ${err}`));
+  }).then(checkRequestResult);
 };
 
 export const authorize = (password, email) => {
@@ -37,8 +35,7 @@ export const authorize = (password, email) => {
       } else {
         return;
       }
-    })
-    .catch((err) => console.log(`error: ${err}`));
+    });
 };
 
 export const getContent = (token) => {

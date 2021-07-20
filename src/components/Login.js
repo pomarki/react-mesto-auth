@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import Header from "./Header";
-import * as auth from "../utils/auth";
-import { useHistory } from "react-router-dom";
 
-function Login({ handleLogin }) {
+function Login({ authorizationUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const history = useHistory();
-  
+
   function handleEnterEmail(e) {
     setEmail(e.target.value);
   }
@@ -16,19 +13,7 @@ function Login({ handleLogin }) {
   }
   function handleSubmit(e) {
     e.preventDefault();
-    auth
-      .authorize(password, email)
-      .then((token) => {
-        if (token) {
-          handleLogin();
-          setEmail("");
-          setPassword("");
-          history.push("/");
-          
-        }
-       
-      })
-      .catch((err) => console.log(err));
+    authorizationUser(password, email);
   }
   return (
     <>
@@ -50,9 +35,7 @@ function Login({ handleLogin }) {
             value={password}
             onChange={handleEnterPassword}
           />
-          <button onClick={handleSubmit} className="authorization__button">
-            Войти
-          </button>
+          <button className="authorization__button">Войти</button>
         </form>
       </div>
     </>

@@ -28,7 +28,6 @@ function PopupWithForm({
           onSubmit={onSubmit}
           className="popup__form"
           autoccomplete="off"
-          noValidate
         >
           {children}
         </form>

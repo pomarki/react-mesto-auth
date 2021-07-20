@@ -27,7 +27,7 @@ function Card({
 
   const currentUser = React.useContext(CurrentUserContext);
   const isOwn = userId === currentUser._id;
-  let isLiked = likes.some((item) => item._id === currentUser._id);
+  const isLiked = likes.some((item) => item._id === currentUser._id);
 
   const cardDeleteButtonClassName = `element__trash ${
     isOwn ? "element__trash_visible" : ""
